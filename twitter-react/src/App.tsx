@@ -5,13 +5,15 @@ import './App.css';
 import SocketContext from "./socket-context";
 
 import socketIOClient, { Socket } from 'socket.io-client';
+import { HomeComponent } from './components/Home';
 
-let socket:typeof Socket = socketIOClient("http://localhost:8080/");;
+let socket:typeof Socket = socketIOClient("http://localhost:8080/");
 
 function App() {
   // initiateSocket();
   return (
     <SocketContext.Provider value={{socket}}>
+      <HomeComponent />
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
