@@ -40,8 +40,8 @@ producer.on('error', function (err) {
 });
 
 stream.on('tweet', function (tweet) {
-    console.log(tweet.created_at);
-    console.log(tweet.text);
+    console.log("created at - ",tweet.created_at);
+    console.log("text of tweet - ", tweet.text);
     const messages = JSON.stringify({
         "queryString" : "apple",
         "createdAt": tweet.created_at,
@@ -51,13 +51,25 @@ stream.on('tweet', function (tweet) {
         { "topic": "NodePOCTopic", messages, partition: 0 }
     ]
     producer.send(payloads, function (err, data) {
+        console.log("apple found");
         console.log(data);
     });
 })
 
-var stream2 = T.stream('statuses/filter', { track: '#redhat', language: 'en' })
+var stream2 = T.stream('statuses/filter', { track: '#microsoft', language: 'en' })
 
 stream2.on('tweet', function (tweet) {
-    console.log("red hat - " + tweet.created_at);
-    console.log(tweet.text);
+    const messages = JSON.stringify({
+        "queryString" : "microsoft",
+        "createdAt": tweet.created_at,
+        "user": tweet.user.name
+    });
+    let payloads = [
+        { "topic": "NodePOCTopic", messages, partition: 0 }
+    ]
+    producer.send(payloads, function (err, data) {
+        console.log(data);
+    });
+    console.log("stream 2 created at " + tweet.created_at);
+    console.log("stream 2 text", tweet.text);
 })

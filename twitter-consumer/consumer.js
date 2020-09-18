@@ -15,26 +15,40 @@ var kafka = require('kafka-node'),
     );
 
     let appleCount = 0;
-    let redHatCount = 0;
+    let microsoftCount = 0;
 
     io.on('connection', (socket) => {
         console.log('a user connected');
+
+        consumer.on('message', function (message) {
+            console.log("entire obj", message);
+            console.log("raw_string", typeof(message.value))
+            try {
+                if(typeof(message.value) === "string") message.value = JSON.parse(message.value);
+                if(message.value.queryString === "apple"){
+                    appleCount ++;
+                }
+                if(message.value.queryString === "microsoft"){
+                    microsoftCount ++;
+                }
+        
+                console.log(message.value);
+        
+                console.log("appleCount", appleCount);
+                console.log("microsoftcount", microsoftCount);
+        
+                socket.emit("tweet_received", {
+                    appleCount,
+                    microsoftCount
+                })
+                } catch (e) {
+                    console.log(e);
+                }
+            
+        });
     });
 
-    consumer.on('message', function (message) {
-        message.value = JSON.parse(message.value);
-        if(message.value.queryString === "apple"){
-            appleCount ++;
-        }
-        if(message.value.queryString === "redhat"){
-            redHatCount ++;
-        }
-
-        console.log(message.value);
-
-        console.log("appleCount", appleCount);
-        console.log("redhatcount", redHatCount);
-    });
+    
     
     consumer.on('error', function (err) {
         console.log('Error:',err);
@@ -49,5 +63,5 @@ var kafka = require('kafka-node'),
       });
 
     http.listen(8080, () => {
-        console.log('listening on *:3000');
+        console.log('listening on *:8080');
       });
