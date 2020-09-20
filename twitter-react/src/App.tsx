@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import "@patternfly/react-core/dist/styles/base.css";
 import './App.css';
 
 import SocketContext from "./socket-context";
@@ -14,7 +15,7 @@ function App() {
   return (
     <SocketContext.Provider value={{socket}}>
       <HomeComponent />
-      <div className="App">
+      {/* <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
@@ -29,7 +30,7 @@ function App() {
             Learn React
           </a>
         </header>
-      </div>
+      </div> */}
     </SocketContext.Provider>
   );
 }

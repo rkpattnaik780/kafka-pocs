@@ -40,6 +40,7 @@ producer.on('error', function (err) {
 });
 
 stream.on('tweet', function (tweet) {
+    console.log("The tweet:", tweet);
     console.log("created at - ",tweet.created_at);
     console.log("text of tweet - ", tweet.text);
     const messages = JSON.stringify({
