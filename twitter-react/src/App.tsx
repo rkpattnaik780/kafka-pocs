@@ -11,7 +11,6 @@ import { HomeComponent } from './components/Home';
 let socket:typeof Socket = socketIOClient("http://localhost:8080/");
 
 function App() {
-  // initiateSocket();
   return (
     <SocketContext.Provider value={{socket}}>
       <HomeComponent />
